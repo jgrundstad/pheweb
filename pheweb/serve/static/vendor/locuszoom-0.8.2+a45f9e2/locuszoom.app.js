@@ -9615,18 +9615,13 @@
             if (!isNaN(width) && width >= 0 && !isNaN(height) && height >= 0) {
                 this.layout.width = Math.max(Math.round(+width), this.layout.min_width);
                 this.layout.height = Math.max(Math.round(+height), this.layout.min_height);
-                this.layout.aspect_ratio = this.layout.width / this.layout.height;
                 // Override discrete values if resizing responsively
                 if (this.layout.responsive_resize) {
                     if (this.svg) {
                         this.layout.width = Math.max(this.svg.node().parentNode.getBoundingClientRect().width, this.layout.min_width);
                     }
-                    this.layout.height = this.layout.width / this.layout.aspect_ratio;
-                    if (this.layout.height < this.layout.min_height) {
-                        this.layout.height = this.layout.min_height;
-                        this.layout.width = this.layout.height * this.layout.aspect_ratio;
-                    }
                 }
+                this.layout.aspect_ratio = this.layout.width / this.layout.height;
                 // Resize/reposition panels to fit, update proportional origins if necessary
                 var y_offset = 0;
                 this.panel_ids_by_y_index.forEach(function (panel_id) {
@@ -9655,7 +9650,7 @@
             this.layout.aspect_ratio = this.layout.width / this.layout.height;
             // Apply layout width and height as discrete values or viewbox values
             if (this.svg !== null) {
-                if (this.layout.responsive_resize) {
+                if (this.layout.responsive_resize && false) {
                     this.svg.attr('viewBox', '0 0 ' + this.layout.width + ' ' + this.layout.height).attr('preserveAspectRatio', 'xMinYMin meet');
                 } else {
                     this.svg.attr('width', this.layout.width).attr('height', this.layout.height);
