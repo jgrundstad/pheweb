@@ -8,8 +8,15 @@ def test_all(tmpdir, capsys):
     p = tmpdir.realpath()
     with capsys.disabled(): print('\n{}'.format(p))
     indir = os.path.join(os.path.dirname(__file__), 'input_files/')
-
     conf = ['conf', 'data_dir="{}"'.format(p), 'cache="{}/fake-cache"'.format(indir)]
+
+    with capsys.disabled():
+        print('tmpdir:', repr(p))
+        print('__file__:', repr(__file__))
+        print('indir:', repr(indir))
+        print('conf:', repr(conf))
+        print('fake-cache:', repr(os.listdir(indir+'/fake-cache')))
+
 
     from pheweb.command_line import run as cl_run
     cl_run(conf+['-h'])
